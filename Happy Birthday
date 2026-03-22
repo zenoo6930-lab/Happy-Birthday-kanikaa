@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Special Surprise 💖</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  background: black;
+  color: white;
+  overflow: hidden;
+}
+
+/* Screens */
+.screen {
+  display: none;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.active { display: flex; }
+
+/* Countdown */
+#countdown h1 {
+  font-size: 60px;
+  animation: glow 1s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px pink; }
+  to { text-shadow: 0 0 30px red; }
+}
+
+/* Aesthetic */
+#aesthetic {
+  background: linear-gradient(to right, #1a1a2e, #16213e);
+}
+
+#aesthetic p {
+  width: 80%;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+/* Game */
+#game button {
+  padding: 15px;
+  margin: 10px;
+  font-size: 20px;
+  background: pink;
+  border: none;
+  border-radius: 10px;
+}
+
+/* Final */
+#final {
+  background: linear-gradient(to right, #ff758c, #ff7eb3);
+}
+
+.balloon {
+  position: absolute;
+  width: 40px;
+  height: 60px;
+  background: red;
+  border-radius: 50%;
+  animation: float 6s linear infinite;
+}
+
+@keyframes float {
+  from { transform: translateY(100vh); }
+  to { transform: translateY(-10vh); }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Countdown -->
+<div id="countdown" class="screen active">
+  <h1 id="timer">5</h1>
+  <p>Something special is coming...</p>
+</div>
+
+<!-- Aesthetic -->
+<div id="aesthetic" class="screen">
+  <h1>For You 💖</h1>
+  <p>
+    In a world full of chaos, you are my calm.  
+    Every moment with you feels like magic.  
+    Today isn't just your birthday...  
+    it's the day the most beautiful soul was born ✨
+  </p>
+  <button onclick="nextScreen('game')">Continue ➡️</button>
+</div>
+
+<!-- Game -->
+<div id="game" class="screen">
+  <h1>Catch 5 Hearts ❤️</h1>
+  <p id="score">0 / 5</p>
+  <button onclick="tapHeart()">❤️</button>
+</div>
+
+<!-- Final -->
+<div id="final" class="screen">
+  <h1>🎉 HAPPY BIRTHDAY 🎂</h1>
+  <p>You are truly special 💕</p>
+</div>
+
+<script>
+let count = 5;
+let score = 0;
+
+/* Countdown */
+let timer = setInterval(() => {
+  count--;
+  document.getElementById("timer").innerText = count;
+
+  if(count === 0){
+    clearInterval(timer);
+    nextScreen("aesthetic");
+  }
+}, 1000);
+
+/* Switch screens */
+function nextScreen(id){
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+/* Game */
+function tapHeart(){
+  score++;
+  document.getElementById("score").innerText = score + " / 5";
+
+  if(score === 5){
+    startFinal();
+  }
+}
+
+/* Final animation */
+function startFinal(){
+  nextScreen("final");
+
+  // balloons
+  for(let i=0;i<20;i++){
+    let b = document.createElement("div");
+    b.classList.add("balloon");
+    b.style.left = Math.random()*100 + "vw";
+    b.style.background = ["red","pink","yellow","blue"][Math.floor(Math.random()*4)];
+    document.body.appendChild(b);
+  }
+
+  // sound (you can replace this with Aizen voice)
+  let audio = new Audio("https://www.myinstants.com/media/sounds/anime-wow-sound-effect.mp3");
+  audio.play();
+}
+</script>
+
+</body>
+</html>
